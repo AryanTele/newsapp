@@ -1,6 +1,8 @@
 const API_KEY = "3b44f73a743a48b6be6b5ca1e2eaee39"; //NEWSAPI key
 
 const blogContainer = document.getElementById("blog-container");
+const searchField = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-button");
 
 async function fetchRandomNews() {
   try {
@@ -16,6 +18,18 @@ async function fetchRandomNews() {
     return [];
   }
 }
+
+searchBtn.addEventListener("click", () => {
+  const query = searchField.ariaValueMax.trim();
+  if (query != "") {
+    try {
+      fetchRandomNews();
+    } catch (error) {
+      console.log("Error Fetching data", error);
+    }
+  }
+});
+
 function displayBlock(articles) {
   blogContainer.innerHTML = "";
   articles.forEach((article) => {
@@ -43,7 +57,9 @@ function displayBlock(articles) {
     blogCard.appendChild(img);
     blogCard.appendChild(title);
     blogCard.appendChild(description);
-
+    blogCard.addEventListener("click", () => {
+      window.open(article.url, "_blank");
+    });
     blogContainer.appendChild(blogCard);
   });
 }
